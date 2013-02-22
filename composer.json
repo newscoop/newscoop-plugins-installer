@@ -1,0 +1,17 @@
+{
+    "name": "newscoop/plugins-installer",
+    "type": "composer-installer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pawel Mikolajczuk",
+            "email": "pawel.mikolajczuk@sourcefabric.org"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"Newscoop\\Composer": "src/"}
+    },
+    "extra": {
+        "class": "Newscoop\\Composer\\PluginsInstaller"
+    }
+}
