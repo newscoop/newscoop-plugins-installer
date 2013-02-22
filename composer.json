@@ -13,5 +13,6 @@
     },
     "extra": {
         "class": "Newscoop\\Composer\\PluginsInstaller"
-    }
+    },
+    "target-dir": "Newscoop/Composer"
 }
