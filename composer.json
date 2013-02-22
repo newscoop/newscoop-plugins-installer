@@ -9,7 +9,7 @@
         }
     ],
     "autoload": {
-        "psr-0": {"Newscoop\\Composer": "src/"}
+        "psr-0": {"Newscoop\\Composer": ""}
     },
     "extra": {
         "class": "Newscoop\\Composer\\PluginsInstaller"
