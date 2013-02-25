@@ -47,8 +47,8 @@ class PluginsInstaller extends LibraryInstaller
     {
         $plugins = array();
         $finder = new Finder();
-        $pluginsDirectory = $this->vendorDir. '../plugins';
-        $cacheDirectory = $this->vendorDir. '../cache';
+        $pluginsDirectory = $this->vendorDir. '/../plugins';
+        $cacheDirectory = $this->vendorDir. '/../cache';
         $elements = $finder->depth('== 0')->in($pluginsDirectory);
         foreach ($elements as $element) {
             if (count($elements) > 0) {
