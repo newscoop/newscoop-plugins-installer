@@ -58,7 +58,8 @@ class PluginsInstaller extends LibraryInstaller
                 foreach ($directories as $directory) {
                     $pluginName = $directory->getFileName();
                     $className = $vendorName . '\\' .$pluginName . '\\' . $vendorName . $pluginName;
-                    if (class_exists($className)) {
+                    $pos = strpos($className, 'Bundle');
+                    if ($pos !== false) {
                         $plugins[] = $className;
                     }
                 }
