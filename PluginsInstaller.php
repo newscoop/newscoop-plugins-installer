@@ -32,11 +32,23 @@ class PluginsInstaller extends LibraryInstaller
 
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        parent::install($repo, $package);
+        $this->initializeVendorDir();
+        $downloadPath = $this->getInstallPath($package);
+
+        // remove the binaries if it appears the package files are missing
+        if (!is_readable($downloadPath) && $repo->hasPackage($package)) {
+            $this->removeBinaries($package);
+        }
+
+        $this->installCode($package);
+        $this->installBinaries($package);
+        if (!$repo->hasPackage($package)) {
+            $repo->addPackage(clone $package);
+        }
 
         $this->findAllPlugins();
     }
