@@ -11,7 +11,6 @@ namespace Newscoop\Composer;
 use Composer\Package\PackageInterface;
 use Composer\Installer\LibraryInstaller;
 use Composer\Repository\InstalledRepositoryInterface;
-use Composer\Package\PackageInterface;
 
 class PluginsInstaller extends LibraryInstaller
 {
