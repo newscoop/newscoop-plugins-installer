@@ -11,6 +11,7 @@ namespace Newscoop\Composer;
 use Composer\Package\PackageInterface;
 use Composer\Installer\LibraryInstaller;
 use Composer\Repository\InstalledRepositoryInterface;
+use Symfony\Component\Finder\Finder;
 
 class PluginsInstaller extends LibraryInstaller
 {
