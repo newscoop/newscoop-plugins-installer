@@ -43,6 +43,26 @@ class PluginsInstaller extends LibraryInstaller
         $this->findAllPlugins();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
+    {
+        parent::uninstall($repo, $package);
+
+        $this->findAllPlugins();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
+    {
+        parent::update($repo, $package, $target);
+
+        $this->findAllPlugins();
+    }
+
     public function findAllPlugins()
     {
         $plugins = array();
