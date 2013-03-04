@@ -69,16 +69,16 @@ class PluginsInstaller extends LibraryInstaller
         $finder = new Finder();
         $pluginsDirectory = $this->vendorDir. '/../plugins';
         $cacheDirectory = $this->vendorDir. '/../cache';
-        $elements = $finder->depth('== 0')->in($pluginsDirectory);
-        foreach ($elements as $element) {
-            if (count($elements) > 0) {
+        $elements = $finder->directories()->depth('== 0')->in($pluginsDirectory);
+        if (count($elements) > 0) {
+            foreach ($elements as $element) {
                 $vendorName = $element->getFileName();
                 $secondFinder = new Finder();
-                $directories = $secondFinder->depth('== 0')->in($element->getPathName());
+                $directories = $secondFinder->directories()->depth('== 0')->in($element->getPathName());
                 foreach ($directories as $directory) {
                     $pluginName = $directory->getFileName();
                     $className = $vendorName . '\\' .$pluginName . '\\' . $vendorName . $pluginName;
-                    $pos = strpos($className, 'Bundle');
+                    $pos = strpos($pluginName, 'Bundle');
                     if ($pos !== false) {
                         $plugins[] = $className;
                     }
@@ -86,6 +86,6 @@ class PluginsInstaller extends LibraryInstaller
             }
         }
 
-        file_put_contents($cacheDirectory.'/avaiable_plugins.json', json_encode($plugins));
+        file_put_contents($pluginsDirectory.'/avaiable_plugins.json', json_encode($plugins));
     }
 }
