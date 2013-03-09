@@ -58,7 +58,7 @@ class PluginsInstaller extends LibraryInstaller
      */
     public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
     {
-        parent::update($repo, $package, $target);
+        parent::update($repo, $initial, $target);
 
         $this->findAllPlugins();
     }
