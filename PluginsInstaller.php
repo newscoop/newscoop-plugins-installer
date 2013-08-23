@@ -40,7 +40,10 @@ class PluginsInstaller extends LibraryInstaller
     {
         parent::install($repo, $package);
 
-        $this->findAllPlugins();
+        file_put_contents(
+            $this->vendorDir. '/../plugins/cache/add_'.str_replace('/', '-', $package->getName()).'_package.json', 
+            json_encode($this->preparePackageMeta($package))
+        );
     }
 
     /**
@@ -50,7 +53,10 @@ class PluginsInstaller extends LibraryInstaller
     {
         parent::uninstall($repo, $package);
 
-        $this->findAllPlugins();
+        file_put_contents(
+            $this->vendorDir. '/../plugins/cache/uninstall_'.str_replace('/', '-', $package->getName()).'_package.json', 
+            json_encode($this->preparePackageMeta($package))
+        );
     }
 
     /**
@@ -60,32 +66,26 @@ class PluginsInstaller extends LibraryInstaller
     {
         parent::update($repo, $initial, $target);
 
-        $this->findAllPlugins();
+        file_put_contents(
+            $this->vendorDir. '/../plugins/cache/update_'.str_replace('/', '-', $initial->getName()).'_package.json', 
+            json_encode(array(
+                'initial' => $this->preparePackageMeta($initial),
+                'target' => $this->preparePackageMeta($target)
+            ))
+        );
     }
 
-    public function findAllPlugins()
+    private function preparePackageMeta($package)
     {
-        $plugins = array();
-        $finder = new Finder();
-        $pluginsDirectory = $this->vendorDir. '/../plugins';
-        $cacheDirectory = $this->vendorDir. '/../cache';
-        $elements = $finder->directories()->depth('== 0')->in($pluginsDirectory);
-        if (count($elements) > 0) {
-            foreach ($elements as $element) {
-                $vendorName = $element->getFileName();
-                $secondFinder = new Finder();
-                $directories = $secondFinder->directories()->depth('== 0')->in($element->getPathName());
-                foreach ($directories as $directory) {
-                    $pluginName = $directory->getFileName();
-                    $className = $vendorName . '\\' .$pluginName . '\\' . $vendorName . $pluginName;
-                    $pos = strpos($pluginName, 'Bundle');
-                    if ($pos !== false) {
-                        $plugins[] = $className;
-                    }
-                }
-            }
-        }
-
-        file_put_contents($pluginsDirectory.'/avaiable_plugins.json', json_encode($plugins));
+        return array(
+            'version' => $package->getVersion(),
+            'name' => $package->getName(),
+            'id' => $package->getId(),
+            'description' => $package->getDescription(),
+            'authors' => $package->getAuthors(),
+            'release_date' => $package->getReleaseDate(),
+            'license' => $package->getLicense(),
+            'targetDir' => $package->getTargetDir()
+        );
     }
 }
