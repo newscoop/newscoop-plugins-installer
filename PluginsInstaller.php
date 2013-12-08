@@ -41,7 +41,7 @@ class PluginsInstaller extends LibraryInstaller
         parent::install($repo, $package);
 
         file_put_contents(
-            $this->vendorDir. '/../cache/plugins/add_'.str_replace('/', '-', $package->getName()).'_package.json', 
+            $this->vendorDir. '/../plugins/cache/add_'.str_replace('/', '-', $package->getName()).'_package.json', 
             json_encode($this->preparePackageMeta($package))
         );
     }
@@ -54,7 +54,7 @@ class PluginsInstaller extends LibraryInstaller
         parent::uninstall($repo, $package);
 
         file_put_contents(
-            $this->vendorDir. '/../cache/plugins/uninstall_'.str_replace('/', '-', $package->getName()).'_package.json', 
+            $this->vendorDir. '/../plugins/cache/uninstall_'.str_replace('/', '-', $package->getName()).'_package.json', 
             json_encode($this->preparePackageMeta($package))
         );
     }
@@ -67,7 +67,7 @@ class PluginsInstaller extends LibraryInstaller
         parent::update($repo, $initial, $target);
 
         file_put_contents(
-            $this->vendorDir. '/../cache/plugins/update_'.str_replace('/', '-', $initial->getName()).'_package.json', 
+            $this->vendorDir. '/../plugins/cache/update_'.str_replace('/', '-', $initial->getName()).'_package.json', 
             json_encode(array(
                 'initial' => $this->preparePackageMeta($initial),
                 'target' => $this->preparePackageMeta($target)
