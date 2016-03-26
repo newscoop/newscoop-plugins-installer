@@ -51,10 +51,23 @@ class PluginsInstaller extends LibraryInstaller
      */
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        parent::uninstall($repo, $package);
+        if (!$repo->hasPackage($package)) {
+            throw new \InvalidArgumentException('Package is not installed: '.$package);
+        }
+
+        // Remove directory containing code, and any empty parent directories
+        $installPath = $this->getInstallPath($package);
+        do {
+            $parent = dirname($installPath);
+            $this->filesystem->removeDirectory($installPath);
+            $installPath = $parent;
+        } while (!empty($installPath) && $this->filesystem->isDirEmpty($installPath));
+
+        $this->removeBinaries($package);
+        $repo->removePackage($package);
 
         file_put_contents(
-            $this->vendorDir. '/../plugins/cache/uninstall_'.str_replace('/', '-', $package->getName()).'_package.json', 
+            $this->vendorDir. '/../plugins/cache/uninstall_'.str_replace('/', '-', $package->getName()).'_package.json',
             json_encode($this->preparePackageMeta($package))
         );
     }
